@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/group_conf" >
+        <item
+            android:icon="@drawable/ic_action_overflow"
+            android:orderInCategory="1"
+            android:showAsAction="always"
+            android:title="@string/menu">
+            <menu
+                android:id="@+id/fff"
+                android:title="@string/menu" >
+                <item
+                    android:id="@+id/back"
+                    android:orderInCategory="2"
+                    android:showAsAction="ifRoom|withText"
+                    android:title="@string/back">
+                </item>
+            </menu>
+        </item>
+    </group>
+
+</menu>

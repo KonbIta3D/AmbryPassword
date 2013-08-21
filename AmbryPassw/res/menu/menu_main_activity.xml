@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <group android:id="@+id/group1" >
+        <item
+            android:id="@+id/myButtonMenu"
+            android:icon="@drawable/ic_action_overflow"
+            android:orderInCategory="1"
+            android:showAsAction="always"
+            android:title="@string/menu">
+            <menu
+                android:id="@+id/ddd"
+                android:title="@string/menu" >
+                <item
+                    android:id="@+id/menu_conf"
+                    android:orderInCategory="2"
+                    android:showAsAction="withText"
+                    android:title="@string/settings">
+                </item>
+                <item
+                    android:id="@+id/menu_exit"
+                    android:orderInCategory="3"
+                    android:showAsAction="withText"
+                    android:title="@string/exit">
+                </item>
+            </menu>
+        </item>
+    </group>
+
+</menu>
