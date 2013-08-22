@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.ambry.passww.R;
+import com.ambry.passw.R;
 
 public class ConfigFragment extends DialogFragment implements OnClickListener {
 	final String LOG_TAG = "myLogs";

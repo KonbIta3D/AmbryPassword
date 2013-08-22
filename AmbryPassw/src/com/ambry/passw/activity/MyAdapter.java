@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.passww.R;
+import com.ambry.passw.R;
 
 /**
  * Created by pcuser on 25.07.13.

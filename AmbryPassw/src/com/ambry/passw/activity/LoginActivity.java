@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ambry.passw.security.S_md5_Class;
-import com.example.passww.R;
+import com.ambry.passw.R;
 
 /**
  * Activity which displays a login screen to the user, offering registration as

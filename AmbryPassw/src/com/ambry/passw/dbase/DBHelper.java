@@ -13,17 +13,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         public DBHelper(Context context) {
-            // конструктор суперкласса
+            
             super(context, "myDB", null, 1);
         }
 
         public void onCreate(SQLiteDatabase db) {
-          //  Log.d(LOG_TAG, "--- onCreate database ---");
-            // создаем таблицу с полями
+          
             db.execSQL("create table mytable ("
                     + "id integer primary key autoincrement,"
                     + "login text,"
                     + "passwd text,"
+                    + "comment text"+");");
+            db.execSQL("create table savePassword ("
+                    + "id integer primary key autoincrement,"
+                    + "passwd text,"
+                    + "activeCheckBox integer,"
                     + "comment text"+");");
         }
 

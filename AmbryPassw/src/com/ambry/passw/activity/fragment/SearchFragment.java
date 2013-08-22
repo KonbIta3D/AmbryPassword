@@ -1,6 +1,6 @@
 package com.ambry.passw.activity.fragment;
 
-import com.example.passww.R;
+import com.ambry.passw.R;
 
 import android.content.DialogInterface;
 import android.view.View.OnClickListener;

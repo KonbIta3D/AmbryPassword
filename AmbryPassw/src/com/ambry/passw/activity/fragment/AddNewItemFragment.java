@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.passww.R;
+import com.ambry.passw.R;
 
 public class AddNewItemFragment extends DialogFragment implements
 		OnClickListener {

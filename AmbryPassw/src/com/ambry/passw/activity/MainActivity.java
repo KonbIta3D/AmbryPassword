@@ -4,10 +4,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import android.content.ContentValues;
+//import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+//import android.database.Cursor;
+//import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,7 +24,8 @@ import com.ambry.passw.activity.fragment.AddNewItemFragment;
 import com.ambry.passw.activity.fragment.ConfigFragment;
 import com.ambry.passw.activity.fragment.SearchFragment;
 import com.ambry.passw.dbase.DBHelper;
-import com.ambry.passww.R;
+import com.ambry.passw.dbase.Operate_DB;
+import com.ambry.passw.R;
 
 public class MainActivity extends SherlockFragmentActivity implements
 		View.OnClickListener {
@@ -41,11 +42,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 	ConfigFragment conFrgmnt;
 	SearchFragment searchFragment;
 	AddNewItemFragment addItemFragment;
+	
+	Operate_DB operate_db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
+		operate_db = new Operate_DB(getApplicationContext());
 
 		conFrgmnt = new ConfigFragment();
 		searchFragment = new SearchFragment();
@@ -68,8 +74,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					if (keyCode == KeyEvent.KEYCODE_ENTER
 							|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-						insertData();
-						findItems("");
+						
+						operate_db.insertData(editTextLogin.getText().toString(),
+												editTextPass.getText().toString(),
+												editTextComment.getText().toString()
+												);
+						editTextLogin.setText("");
+						editTextPass.setText("");
+						editTextComment.setText("");
+						hideKeyBoard();
+						operate_db.findItemsByLogin(data,"");
 						updateList();
 
 						return true;
@@ -79,7 +93,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			}
 		});
 
-		dbHelper = new DBHelper(this);
+		
 
 	}
 
@@ -88,12 +102,19 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 		switch (v.getId()) {
 		case R.id.buttonSave:
-			insertData();
-			findItems("");
+			operate_db.insertData(editTextLogin.getText().toString(),
+									editTextPass.getText().toString(),
+									editTextComment.getText().toString()
+									);
+			editTextLogin.setText("");
+			editTextPass.setText("");
+			editTextComment.setText("");
+			
+			operate_db.findItemsByLogin(data,"");
 			updateList();
 			break;
 		case R.id.buttonFind:
-			findItems(editTextLogin.getText().toString());
+			operate_db.findItemsByLogin(data,editTextLogin.getText().toString());
 			updateList();
 			hideKeyBoard();
 		default:
@@ -162,7 +183,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		registerForContextMenu(list);
 		sAdapter.notifyDataSetChanged();
 	}
-
+/*
 	private void findItems(String login1) {
 		data.clear();
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -211,7 +232,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		hideKeyBoard();
 
 		db.close();
-	}
+	} */
 
 	private void hideKeyBoard() {
 		InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext()
