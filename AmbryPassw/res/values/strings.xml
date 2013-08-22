@@ -30,6 +30,12 @@
 	    <item>Выход</item>
 	    <item >Чота</item>
 	</string-array> 
-	<string name="menu">Menu</string>
+	<string name="menu">Меню</string>
 	<string name="back">Назад</string>
+	<string name="search">Найти</string>
+	<string name="search_by_login">по логину</string>
+	<string name="search_by_comment">по комментарию</string>
+	<string name="title_fragment_search">Поиск</string>
+	<string name="cancel">Отмена</string>
+	<string name="add_item_title">Добавить запись</string>
 </resources>

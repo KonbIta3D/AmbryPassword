@@ -1,85 +1,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/status_bar_background22"
+    android:orientation="vertical" >
 
-			  android:background="@drawable/status_bar_background22"
-		>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-	<LinearLayout android:layout_height="wrap_content"
-				  android:layout_width="match_parent"
-				  android:orientation="horizontal">
-		<EditText
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/editText"
-				android:hint="@string/login"
-				android:textIsSelectable="false"
-				android:layout_weight="2"/>
-		<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/find"
-				android:id="@+id/buttonFind"
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="@string/login"
+            android:textIsSelectable="false" />
 
-				android:layout_weight="1" android:gravity="center"/>
-	</LinearLayout>
+        <Button
+            android:id="@+id/buttonFind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/find" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-	<LinearLayout android:layout_height="wrap_content"
-				  android:layout_width="match_parent"
-				  android:orientation="horizontal">
-		<EditText
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:inputType="textPassword"
-				android:id="@+id/editText2"
-				android:hint="@string/password"
-				android:singleLine="true"
-				android:textIsSelectable="false"
-				android:maxLength="10"
-				android:maxLines="1"
-				android:layout_weight="8"/>
-		<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/savePassw"
-				android:id="@+id/buttonSave"
-				android:layout_weight="1"/>
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textIsSelectable="false" />
 
-	</LinearLayout>
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/savePassw" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-	<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/editText3"
-			android:layout_toLeftOf="@+id/button2"
-			android:id="@+id/linearLayout">
+        <TextView
+            android:id="@+id/textSelect"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
 
-		<TextView
-				android:id="@+id/textSelect"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:textStyle="bold"
-				/>
-		<EditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/editText3"
-				android:hint="@string/comment"
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/comment" />
+    </LinearLayout>
 
-				/>
-
-
-	</LinearLayout>
-
-	<ListView
-			android:id="@+id/list"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:drawSelectorOnTop="false"
-			android:scrollingCache="false"/>
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="false"
+        android:scrollingCache="false" />
 
 </LinearLayout>

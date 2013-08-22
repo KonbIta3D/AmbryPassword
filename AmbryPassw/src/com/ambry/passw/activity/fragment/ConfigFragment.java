@@ -1,4 +1,4 @@
-package com.ambry.passw.activity;
+package com.ambry.passw.activity.fragment;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -24,7 +24,7 @@ public class ConfigFragment extends DialogFragment implements OnClickListener {
 		
 		getDialog().setTitle(
 				getResources().getString(R.string.title_activity_conf_));
-		View view = inflater.inflate(R.layout.activity_conf, null);
+		View view = inflater.inflate(R.layout.fragment_conf, null);
 		view.findViewById(R.id.save_password1);
 		view.findViewById(R.id.save_password2);
 		view.findViewById(R.id.save_checkBox);

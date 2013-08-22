@@ -20,6 +20,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.ambry.passw.activity.fragment.AddNewItemFragment;
+import com.ambry.passw.activity.fragment.ConfigFragment;
+import com.ambry.passw.activity.fragment.SearchFragment;
 import com.ambry.passw.dbase.DBHelper;
 import com.example.passww.R;
 
@@ -36,6 +39,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 	ArrayList<Item> data = new ArrayList<Item>();
 	MyAdapter sAdapter;
 	ConfigFragment conFrgmnt;
+	SearchFragment searchFragment;
+	AddNewItemFragment addItemFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		setContentView(R.layout.activity_main);
 
 		conFrgmnt = new ConfigFragment();
+		searchFragment = new SearchFragment();
+		addItemFragment = new AddNewItemFragment();
 
 		bfind = (Button) findViewById(R.id.buttonFind);
 		bfind.setOnClickListener(this);
@@ -108,9 +115,13 @@ public class MainActivity extends SherlockFragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
-
+		case R.id.menu_actnBtnFind:
+			searchFragment.show(getSupportFragmentManager(), "search");
+			break;
+		case R.id.menu_actnBtnAdd:
+			addItemFragment.show(getSupportFragmentManager(), "add");
+			break;
 		case R.id.menu_conf:
-			
 			conFrgmnt.show(getSupportFragmentManager(), "conf");
 			break;
 		case R.id.menu_exit:
