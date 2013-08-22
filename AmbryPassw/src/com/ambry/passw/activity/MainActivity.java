@@ -24,7 +24,7 @@ import com.ambry.passw.activity.fragment.AddNewItemFragment;
 import com.ambry.passw.activity.fragment.ConfigFragment;
 import com.ambry.passw.activity.fragment.SearchFragment;
 import com.ambry.passw.dbase.DBHelper;
-import com.example.passww.R;
+import com.ambry.passww.R;
 
 public class MainActivity extends SherlockFragmentActivity implements
 		View.OnClickListener {
