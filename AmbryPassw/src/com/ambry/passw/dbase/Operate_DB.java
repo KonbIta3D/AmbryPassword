@@ -154,14 +154,14 @@ public class Operate_DB {
 			checkPassword = 1;
 		}
 
-		String[] whereArgs = { getCheckupPass() };
+		String[] whereArgs = { 1+"" };
 
 		String table = "savePassword";
 
 		ContentValues values = new ContentValues();
 		values.put("passwd", newPassword);
 		values.put("activeCheckBox", checkPassword);
-		String whereClause = "passwd=?";
+		String whereClause = "id=?";
 
 		db.update(table, values, whereClause, whereArgs);
 

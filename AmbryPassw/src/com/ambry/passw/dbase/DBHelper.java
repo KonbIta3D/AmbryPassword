@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     + "passwd text,"
                     + "comment text"+");");
             db.execSQL("create table savePassword ("
-//                    + "id integer primary key autoincrement,"
+                    + "id integer primary key autoincrement,"
                     + "passwd text,"
                     + "activeCheckBox integer,"
                     + "comment text"+");");
