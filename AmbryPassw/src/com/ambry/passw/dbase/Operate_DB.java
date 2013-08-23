@@ -12,42 +12,44 @@ import com.ambry.passw.activity.Item;
 public class Operate_DB {
 	private DBHelper dbHelper;
 	private SQLiteDatabase db;
-	
-	public Operate_DB(Context context){
+
+	public Operate_DB(Context context) {
 		dbHelper = new DBHelper(context);
 		db = dbHelper.getWritableDatabase();
+
 	}
-	
-	public void findItemsByLogin(ArrayList<Item> data, String login1){
-		findItems(data,login1, 1);
+
+	public void findItemsByLogin(ArrayList<Item> data, String login1) {
+		findItems(data, login1, 1);
 	}
-	
-	public void findItemsByComment(ArrayList<Item> data, String login1){
-		findItems(data,login1, 2);
+
+	public void findItemsByComment(ArrayList<Item> data, String login1) {
+		findItems(data, login1, 2);
 	}
-	
+
 	private void findItems(ArrayList<Item> data, String login1, int i) {
 		data.clear();
-//		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		// SQLiteDatabase db = dbHelper.getWritableDatabase();
 		String[] columns = null;
 		String selection = null;
 		String[] selectionArgs = null;
 		String orderBy = null;
-		
-		if(i==1){			
+
+		if (i == 1) {
 			columns = new String[] { "id", "login", "passwd", "comment" };
 			selection = "login LIKE (?)";
 			selectionArgs = new String[] { login1 + "%" };
 			orderBy = "login";
-			}
-		
-		if(i==2){			
+		}
+
+		if (i == 2) {
 			columns = new String[] { "id", "login", "passwd", "comment" };
 			selection = "comment LIKE (?)";
 			selectionArgs = new String[] { login1 + "%" };
 			orderBy = "comment";
-			}
-		Cursor c = db.query("mytable", columns, selection, selectionArgs, null,null, orderBy);
+		}
+		Cursor c = db.query("mytable", columns, selection, selectionArgs, null,
+				null, orderBy);
 		if (c.moveToFirst()) {
 
 			do {
@@ -60,27 +62,27 @@ public class Operate_DB {
 			} while (c.moveToNext());
 
 		}
-			}
-
-	public void insertData(String login1,String passwd1,String comment1 ) {
-
-		ContentValues cv = new ContentValues();	
-			cv.put("login", login1);
-			cv.put("passwd", passwd1);
-			cv.put("comment", comment1);
-			db.insert("mytable", null, cv);
-			cv.clear();
-	
 	}
-	
+
+	public void insertData(String login1, String passwd1, String comment1) {
+
+		ContentValues cv = new ContentValues();
+		cv.put("login", login1);
+		cv.put("passwd", passwd1);
+		cv.put("comment", comment1);
+		db.insert("mytable", null, cv);
+		cv.clear();
+
+	}
+
 	public boolean insertPassword(String passwd1) {
 
 		ContentValues cv = new ContentValues();
-//		String login1 = editTextLogin.getText().toString();
-//		String passwd1 = editTextPass.getText().toString();
-//		String comment1 = editTextComment.getText().toString();
+		// String login1 = editTextLogin.getText().toString();
+		// String passwd1 = editTextPass.getText().toString();
+		// String comment1 = editTextComment.getText().toString();
 
-//		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		// SQLiteDatabase db = dbHelper.getWritableDatabase();
 		if (passwd1.length() != 0) {
 			cv.put("passwd", passwd1);
 			cv.put("activeCheckBox", 1);
@@ -88,61 +90,80 @@ public class Operate_DB {
 			db.insert("savePassword", null, cv);
 			cv.clear();
 		}
-		
-		String checkupSave = getCheckupPass();		
-		if(checkupSave.equals(passwd1))return true;
+
+		String checkupSave = getCheckupPass();
+		if (checkupSave.equals(passwd1))
+			return true;
 		return false;
 	}
-	
-	
-	public void closeDb(){
+
+	public void closeDb() {
 		db.close();
 	}
-	
-	public boolean checkupActivePass() {
-			
+
+	public boolean isActivePass() {
+
 		int activeCheckBox = 0;
-		
-//		SQLiteDatabase db = dbHelper.getWritableDatabase();
-					
-			String[] columns = new String[] { "id","passwd","activeCheckBox", "comment" };
-				
-		
-		Cursor c = db.query("savePassword", columns, null, null, null,null, null);
+
+		// SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		// String[] columns = new String[] { "id", "passwd", "activeCheckBox",
+		// "comment" };
+		String[] columns = new String[] { "passwd", "activeCheckBox", "comment" };
+		Cursor c = db.query("savePassword", columns, null, null, null, null,
+				null);
 		if (c.moveToFirst()) {
 
-			do {				
+			do {
 				activeCheckBox = c.getInt(c.getColumnIndex("activeCheckBox"));
-//				long id = c.getLong(c.getColumnIndex("id"));
-				
+				// long id = c.getLong(c.getColumnIndex("id"));
+
 			} while (c.moveToNext());
 		}
-		db.close();
-		if(activeCheckBox==1)return true;
+
+		if (activeCheckBox == 1)
+			return true;
 		return false;
 	}
-	
-public String getCheckupPass() {
-	
-		String passwd = null;
-		
-//		SQLiteDatabase db = dbHelper.getWritableDatabase();
-					
-			String[] columns = new String[] { "id","passwd","activeCheckBox", "comment" };
-				
-		
-		Cursor c = db.query("savePassword", columns, null, null, null,null, null);
+
+	public String getCheckupPass() {
+
+		String passwd = "";
+
+		// String[] columns = new String[] { "id", "passwd", "activeCheckBox",
+		// "comment" };
+		String[] columns = new String[] { "passwd", "activeCheckBox", "comment" };
+
+		Cursor c = db.query("savePassword", columns, null, null, null, null,
+				null);
 		if (c.moveToFirst()) {
 
-			do {				
+			do {
 				passwd = c.getString(c.getColumnIndex("passwd"));
-//				long id = c.getLong(c.getColumnIndex("id"));
-				
+				// long id = c.getLong(c.getColumnIndex("id"));
+
 			} while (c.moveToNext());
 		}
-		
+
 		return passwd;
 	}
 
+	public void updatePassword(boolean isCheckPassword, String newPassword) {
+		int checkPassword = 0;
+		if (isCheckPassword) {
+			checkPassword = 1;
+		}
 
+		String[] whereArgs = { getCheckupPass() };
+
+		String table = "savePassword";
+
+		ContentValues values = new ContentValues();
+		values.put("passwd", newPassword);
+		values.put("activeCheckBox", checkPassword);
+		String whereClause = "passwd=?";
+
+		db.update(table, values, whereClause, whereArgs);
+
+	}
 }

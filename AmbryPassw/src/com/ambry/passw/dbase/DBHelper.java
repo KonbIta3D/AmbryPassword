@@ -14,7 +14,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
             
-            super(context, "myDB", null, 1);
+            super(context, "myDB.db", null, 1);
         }
 
         public void onCreate(SQLiteDatabase db) {
@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     + "passwd text,"
                     + "comment text"+");");
             db.execSQL("create table savePassword ("
-                    + "id integer primary key autoincrement,"
+//                    + "id integer primary key autoincrement,"
                     + "passwd text,"
                     + "activeCheckBox integer,"
                     + "comment text"+");");

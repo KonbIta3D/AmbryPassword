@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+
 //import android.content.ContentValues;
 import android.content.Context;
 //import android.database.Cursor;
@@ -20,12 +21,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.ambry.passw.R;
 import com.ambry.passw.activity.fragment.AddNewItemFragment;
 import com.ambry.passw.activity.fragment.ConfigFragment;
 import com.ambry.passw.activity.fragment.SearchFragment;
 import com.ambry.passw.dbase.DBHelper;
 import com.ambry.passw.dbase.Operate_DB;
-import com.ambry.passw.R;
 
 public class MainActivity extends SherlockFragmentActivity implements
 		View.OnClickListener {

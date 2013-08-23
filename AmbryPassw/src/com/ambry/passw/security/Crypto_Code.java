@@ -1,4 +1,4 @@
-package com.ambry.passw.activity;
+package com.ambry.passw.security;
 
 /**
  * Created by pcuser on 14.08.13.
