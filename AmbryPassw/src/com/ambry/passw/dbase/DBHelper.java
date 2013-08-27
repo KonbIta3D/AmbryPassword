@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-//final String LOG_TAG="myLogs"
+
 
 /**
  * Created by pcuser on 18.07.13.

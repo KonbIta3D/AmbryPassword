@@ -4,7 +4,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-
 //import android.content.ContentValues;
 import android.content.Context;
 //import android.database.Cursor;
@@ -43,15 +42,14 @@ public class MainActivity extends SherlockFragmentActivity implements
 	ConfigFragment conFrgmnt;
 	SearchFragment searchFragment;
 	AddNewItemFragment addItemFragment;
-	
+
 	Operate_DB operate_db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		
+
 		operate_db = new Operate_DB(getApplicationContext());
 
 		conFrgmnt = new ConfigFragment();
@@ -75,16 +73,15 @@ public class MainActivity extends SherlockFragmentActivity implements
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					if (keyCode == KeyEvent.KEYCODE_ENTER
 							|| keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-						
-						operate_db.insertData(editTextLogin.getText().toString(),
-												editTextPass.getText().toString(),
-												editTextComment.getText().toString()
-												);
+
+						operate_db.insertData(editTextLogin.getText()
+								.toString(), editTextPass.getText().toString(),
+								editTextComment.getText().toString());
 						editTextLogin.setText("");
 						editTextPass.setText("");
 						editTextComment.setText("");
 						hideKeyBoard();
-						operate_db.findItemsByLogin(data,"");
+						operate_db.findItemsByLogin(data, "");
 						updateList();
 
 						return true;
@@ -94,8 +91,6 @@ public class MainActivity extends SherlockFragmentActivity implements
 			}
 		});
 
-		
-
 	}
 
 	@Override
@@ -104,18 +99,18 @@ public class MainActivity extends SherlockFragmentActivity implements
 		switch (v.getId()) {
 		case R.id.buttonSave:
 			operate_db.insertData(editTextLogin.getText().toString(),
-									editTextPass.getText().toString(),
-									editTextComment.getText().toString()
-									);
+					editTextPass.getText().toString(), editTextComment
+							.getText().toString());
 			editTextLogin.setText("");
 			editTextPass.setText("");
 			editTextComment.setText("");
-			
-			operate_db.findItemsByLogin(data,"");
+
+			operate_db.findItemsByLogin(data, "");
 			updateList();
 			break;
 		case R.id.buttonFind:
-			operate_db.findItemsByLogin(data,editTextLogin.getText().toString());
+			operate_db.findItemsByLogin(data, editTextLogin.getText()
+					.toString());
 			updateList();
 			hideKeyBoard();
 		default:
@@ -184,56 +179,6 @@ public class MainActivity extends SherlockFragmentActivity implements
 		registerForContextMenu(list);
 		sAdapter.notifyDataSetChanged();
 	}
-/*
-	private void findItems(String login1) {
-		data.clear();
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		String[] columns = new String[] { "id", "login", "passwd", "comment" };
-		String selection = "login LIKE (?)";
-		String[] selectionArgs = new String[] { login1 + "%" };
-		String orderBy = "login";
-
-		Cursor c = db.query("mytable", columns, selection, selectionArgs, null,
-				null, orderBy);
-		if (c.moveToFirst()) {
-
-			do {
-
-				String login = c.getString(c.getColumnIndex("login"));
-				String password = c.getString(c.getColumnIndex("passwd"));
-				String comment = c.getString(c.getColumnIndex("comment"));
-				long id = c.getLong(c.getColumnIndex("id"));
-
-				data.add(new Item(login, password, comment, id));
-			} while (c.moveToNext());
-
-		}
-		db.close();
-	}
-
-	private void insertData() {
-
-		ContentValues cv = new ContentValues();
-		String login1 = editTextLogin.getText().toString();
-		String passwd1 = editTextPass.getText().toString();
-		String comment1 = editTextComment.getText().toString();
-
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		if (login1.length() != 0 && passwd1.length() != 0) {
-			cv.put("login", login1);
-			cv.put("passwd", passwd1);
-			cv.put("comment", comment1);
-			db.insert("mytable", null, cv);
-			cv.clear();
-		}
-		editTextLogin.setText("");
-		editTextPass.setText("");
-		editTextComment.setText("");
-
-		hideKeyBoard();
-
-		db.close();
-	} */
 
 	private void hideKeyBoard() {
 		InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext()

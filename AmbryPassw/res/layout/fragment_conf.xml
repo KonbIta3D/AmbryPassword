@@ -4,6 +4,12 @@
     android:gravity="left|top"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/errorText_conf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#AE0606" />
+
     <CheckBox
         android:id="@+id/save_checkBox"
         android:layout_width="match_parent"
@@ -40,22 +46,14 @@
                 android:id="@+id/save_button_conf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/savePassw"
-                android:onClick="onClick" />
+                android:text="@string/savePassw" />
 
             <Button
                 android:id="@+id/cancel_button_conf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:onClick="onClick" />
+                android:text="@string/cancel" />
         </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/errorText_conf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#AE0606" />
 
 </LinearLayout>

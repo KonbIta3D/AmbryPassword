@@ -12,6 +12,8 @@ import com.ambry.passw.activity.Item;
 public class Operate_DB {
 	private DBHelper dbHelper;
 	private SQLiteDatabase db;
+	private final String SAVEPASSWORD_TABLE = "savePassword";
+	private final String MYTABLE = "mytable";
 
 	public Operate_DB(Context context) {
 		dbHelper = new DBHelper(context);
@@ -29,7 +31,7 @@ public class Operate_DB {
 
 	private void findItems(ArrayList<Item> data, String login1, int i) {
 		data.clear();
-		// SQLiteDatabase db = dbHelper.getWritableDatabase();
+
 		String[] columns = null;
 		String selection = null;
 		String[] selectionArgs = null;
@@ -48,7 +50,7 @@ public class Operate_DB {
 			selectionArgs = new String[] { login1 + "%" };
 			orderBy = "comment";
 		}
-		Cursor c = db.query("mytable", columns, selection, selectionArgs, null,
+		Cursor c = db.query(MYTABLE, columns, selection, selectionArgs, null,
 				null, orderBy);
 		if (c.moveToFirst()) {
 
@@ -70,30 +72,44 @@ public class Operate_DB {
 		cv.put("login", login1);
 		cv.put("passwd", passwd1);
 		cv.put("comment", comment1);
-		db.insert("mytable", null, cv);
+		db.insert(MYTABLE, null, cv);
 		cv.clear();
 
 	}
 
+	// public boolean insertPassword(String passwd1) {
+	//
+	// ContentValues cv = new ContentValues();
+	//
+	// if (passwd1.length() != 0) {
+	// cv.put("passwd", passwd1);
+	// cv.put("activeCheckBox", 1);
+	// cv.put("comment", "");
+	// db.insert(SAVEPASSWORD_TABLE, null, cv);
+	// cv.clear();
+	// }
+	//
+	// String checkupSave = getCheckupPass();
+	// if (checkupSave.equals(passwd1)) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
 	public boolean insertPassword(String passwd1) {
 
 		ContentValues cv = new ContentValues();
-		// String login1 = editTextLogin.getText().toString();
-		// String passwd1 = editTextPass.getText().toString();
-		// String comment1 = editTextComment.getText().toString();
 
-		// SQLiteDatabase db = dbHelper.getWritableDatabase();
-		if (passwd1.length() != 0) {
-			cv.put("passwd", passwd1);
-			cv.put("activeCheckBox", 1);
-			cv.put("comment", "");
-			db.insert("savePassword", null, cv);
+		// if (passwd1.length() != 0) {
+		cv.put("passwd", passwd1);
+		cv.put("activeCheckBox", 1);
+		cv.put("comment", "");
+		if (!isActivePass()) {
+			db.insert(SAVEPASSWORD_TABLE, null, cv);
 			cv.clear();
-		}
-
-		String checkupSave = getCheckupPass();
-		if (checkupSave.equals(passwd1))
 			return true;
+		}
+		// }
 		return false;
 	}
 
@@ -102,45 +118,37 @@ public class Operate_DB {
 	}
 
 	public boolean isActivePass() {
-
 		int activeCheckBox = 0;
-
-		// SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-		// String[] columns = new String[] { "id", "passwd", "activeCheckBox",
+		String selection = "id=?";
+		String[] args = { 1 + "" };
+		// String[] columns = new String[] { "passwd", "activeCheckBox",
 		// "comment" };
-		String[] columns = new String[] { "passwd", "activeCheckBox", "comment" };
-		Cursor c = db.query("savePassword", columns, null, null, null, null,
-				null);
+		// Cursor c = db.query(SAVEPASSWORD_TABLE, columns, null, null, null,
+		// null, null);
+		Cursor c = db.query(SAVEPASSWORD_TABLE, null, selection, args, null,
+				null, null);
 		if (c.moveToFirst()) {
+			activeCheckBox = c.getInt(c.getColumnIndex("activeCheckBox"));
 
-			do {
-				activeCheckBox = c.getInt(c.getColumnIndex("activeCheckBox"));
-				// long id = c.getLong(c.getColumnIndex("id"));
-
-			} while (c.moveToNext());
 		}
-
-		if (activeCheckBox == 1)
+		c.close();
+		if (activeCheckBox == 1) {
 			return true;
-		return false;
+		} else
+			return false;
 	}
 
 	public String getCheckupPass() {
 
 		String passwd = "";
-
-		// String[] columns = new String[] { "id", "passwd", "activeCheckBox",
-		// "comment" };
 		String[] columns = new String[] { "passwd", "activeCheckBox", "comment" };
 
-		Cursor c = db.query("savePassword", columns, null, null, null, null,
-				null);
+		Cursor c = db.query(SAVEPASSWORD_TABLE, columns, null, null, null,
+				null, null);
 		if (c.moveToFirst()) {
 
 			do {
 				passwd = c.getString(c.getColumnIndex("passwd"));
-				// long id = c.getLong(c.getColumnIndex("id"));
 
 			} while (c.moveToNext());
 		}
@@ -148,22 +156,41 @@ public class Operate_DB {
 		return passwd;
 	}
 
-	public void updatePassword(boolean isCheckPassword, String newPassword) {
+	public boolean updatePassword(boolean isCheckPassword, String newPassword) {
 		int checkPassword = 0;
 		if (isCheckPassword) {
 			checkPassword = 1;
 		}
 
-		String[] whereArgs = { 1+"" };
-
-		String table = "savePassword";
+		String[] whereArgs = { 1 + "" };
 
 		ContentValues values = new ContentValues();
 		values.put("passwd", newPassword);
 		values.put("activeCheckBox", checkPassword);
 		String whereClause = "id=?";
-
-		db.update(table, values, whereClause, whereArgs);
-
+		if (isActivePass()) {
+			db.update(SAVEPASSWORD_TABLE, values, whereClause, whereArgs);
+			return true;
+		}
+		return false;
 	}
+
+	public boolean updatePassword(boolean isCheckPassword) {
+		int checkPassword = 0;
+		if (isCheckPassword) {
+			checkPassword = 1;
+		}
+
+		String[] whereArgs = { 1 + "" };
+		ContentValues values = new ContentValues();
+		values.put("activeCheckBox", checkPassword);
+
+		String whereClause = "id=?";
+		if (isActivePass()) {
+			db.update(SAVEPASSWORD_TABLE, values, whereClause, whereArgs);
+			return true;
+		}
+		return false;
+	}
+
 }
