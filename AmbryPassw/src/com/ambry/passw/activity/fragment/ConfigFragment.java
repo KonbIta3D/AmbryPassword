@@ -59,7 +59,7 @@ public class ConfigFragment extends DialogFragment implements
 		savePassButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (operate_db.isActivePass())
+				if (!operate_db.isActivePass())
 					updatePassword();
 				else
 					insertNewPassword();

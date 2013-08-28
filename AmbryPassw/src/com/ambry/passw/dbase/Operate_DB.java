@@ -1,6 +1,7 @@
 package com.ambry.passw.dbase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -77,39 +78,25 @@ public class Operate_DB {
 
 	}
 
-	// public boolean insertPassword(String passwd1) {
-	//
-	// ContentValues cv = new ContentValues();
-	//
-	// if (passwd1.length() != 0) {
-	// cv.put("passwd", passwd1);
-	// cv.put("activeCheckBox", 1);
-	// cv.put("comment", "");
-	// db.insert(SAVEPASSWORD_TABLE, null, cv);
-	// cv.clear();
-	// }
-	//
-	// String checkupSave = getCheckupPass();
-	// if (checkupSave.equals(passwd1)) {
-	// return true;
-	// } else {
-	// return false;
-	// }
-	// }
 	public boolean insertPassword(String passwd1) {
+
+		Cursor cursor = db.rawQuery("select count(*) from "
+				+ SAVEPASSWORD_TABLE, null);
+		cursor.moveToFirst();
+		int qtyRows = cursor.getInt(0);
+		cursor.close();
 
 		ContentValues cv = new ContentValues();
 
-		// if (passwd1.length() != 0) {
 		cv.put("passwd", passwd1);
 		cv.put("activeCheckBox", 1);
-		cv.put("comment", "");
-		if (!isActivePass()) {
+		cv.put("comment", getCurrentDateTime());
+		if (!isActivePass() & qtyRows == 0) {
 			db.insert(SAVEPASSWORD_TABLE, null, cv);
 			cv.clear();
 			return true;
 		}
-		// }
+
 		return false;
 	}
 
@@ -121,10 +108,7 @@ public class Operate_DB {
 		int activeCheckBox = 0;
 		String selection = "id=?";
 		String[] args = { 1 + "" };
-		// String[] columns = new String[] { "passwd", "activeCheckBox",
-		// "comment" };
-		// Cursor c = db.query(SAVEPASSWORD_TABLE, columns, null, null, null,
-		// null, null);
+
 		Cursor c = db.query(SAVEPASSWORD_TABLE, null, selection, args, null,
 				null, null);
 		if (c.moveToFirst()) {
@@ -164,11 +148,18 @@ public class Operate_DB {
 
 		String[] whereArgs = { 1 + "" };
 
+		Cursor cursor = db.rawQuery("select count(*) from "
+				+ SAVEPASSWORD_TABLE, null);
+		cursor.moveToFirst();
+		int qtyRows = cursor.getInt(0);
+		cursor.close();
+
 		ContentValues values = new ContentValues();
 		values.put("passwd", newPassword);
 		values.put("activeCheckBox", checkPassword);
+		values.put("comment", getCurrentDateTime());
 		String whereClause = "id=?";
-		if (isActivePass()) {
+		if (!isActivePass() & qtyRows > 0) {
 			db.update(SAVEPASSWORD_TABLE, values, whereClause, whereArgs);
 			return true;
 		}
@@ -184,6 +175,7 @@ public class Operate_DB {
 		String[] whereArgs = { 1 + "" };
 		ContentValues values = new ContentValues();
 		values.put("activeCheckBox", checkPassword);
+		values.put("comment", getCurrentDateTime());
 
 		String whereClause = "id=?";
 		if (isActivePass()) {
@@ -193,4 +185,26 @@ public class Operate_DB {
 		return false;
 	}
 
+	private String getCurrentDateTime() {
+		String currentDateTime = "";
+
+		final Calendar c = Calendar.getInstance();
+		String yy = c.get(Calendar.YEAR) + "";
+		String mth = addZero(c.get(Calendar.MONTH));
+		String dd = addZero(c.get(Calendar.DAY_OF_MONTH));
+		String hh = addZero(c.get(Calendar.HOUR));
+		String min = addZero(c.get(Calendar.MINUTE));
+		String sec = addZero(c.get(Calendar.SECOND));
+
+		currentDateTime = yy + "." + mth + "." + dd + " " + hh + ":" + min
+				+ ":" + sec;
+		return currentDateTime;
+	}
+
+	private String addZero(int num) {
+		String sNum = num + "";
+		if (sNum.length() < 2 & num < 10)
+			sNum = "0" + sNum;
+		return sNum;
+	}
 }
