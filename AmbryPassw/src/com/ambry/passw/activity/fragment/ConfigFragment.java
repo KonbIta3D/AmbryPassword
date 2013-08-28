@@ -19,9 +19,11 @@ import android.widget.TextView;
 
 import com.ambry.passw.R;
 import com.ambry.passw.dbase.Operate_DB;
+import com.ambry.passw.security.S_md5_Class;
 
 public class ConfigFragment extends DialogFragment implements
 		OnCheckedChangeListener {
+
 	final String LOG_TAG = "myLogs";
 
 	private EditText save_password1;
@@ -59,7 +61,8 @@ public class ConfigFragment extends DialogFragment implements
 		savePassButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!operate_db.isActivePass())
+				// if (operate_db.isActivePass())
+				if (operate_db.isPasswordPresent())
 					updatePassword();
 				else
 					insertNewPassword();
@@ -126,8 +129,14 @@ public class ConfigFragment extends DialogFragment implements
 			if (save_password1.getText().toString()
 					.equals(save_password2.getText().toString())) {
 				if (save_password1.getText().toString().length() >= 8) {
-					isUpdatedPass = operate_db.updatePassword(checkBox
-							.isChecked(), save_password1.getText().toString());
+
+					S_md5_Class crypt = new S_md5_Class();
+
+					String encriptedPassw = crypt.md5(save_password1.getText()
+							.toString());
+
+					isUpdatedPass = operate_db.updatePassword(
+							checkBox.isChecked(), encriptedPassw);
 					Log.d(LOG_TAG, "updated password to "
 							+ save_password1.getText().toString());
 
@@ -159,8 +168,13 @@ public class ConfigFragment extends DialogFragment implements
 		if (isPasswordsIsMatch(save_password1.getText().toString(),
 				save_password2.getText().toString())) {
 			if (isLonger8(save_password1.getText().toString())) {
-				isInsertedPass = operate_db.insertPassword(save_password1
-						.getText().toString());
+
+				S_md5_Class crypt = new S_md5_Class();
+
+				String encriptedPassword = crypt.md5(save_password1.getText()
+						.toString());
+
+				isInsertedPass = operate_db.insertPassword(encriptedPassword);
 
 				if (isInsertedPass)
 					Log.d(LOG_TAG, "password saved to "

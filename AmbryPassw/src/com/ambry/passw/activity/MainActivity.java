@@ -4,8 +4,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+
 //import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 //import android.database.Cursor;
 //import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -29,7 +32,7 @@ import com.ambry.passw.dbase.Operate_DB;
 
 public class MainActivity extends SherlockFragmentActivity implements
 		View.OnClickListener {
-
+	private static final String INCOM_PASS = "myPass";
 	final String ID = "id";
 	final String LOGIN = "login";
 	final String PASSWD = "passwd";
@@ -44,12 +47,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 	AddNewItemFragment addItemFragment;
 
 	Operate_DB operate_db;
+	Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		intent = getIntent();
+		Toast myPass = Toast.makeText(this, intent.getStringExtra(INCOM_PASS), Toast.LENGTH_LONG);
+		
+		myPass.show();
 		operate_db = new Operate_DB(getApplicationContext());
 
 		conFrgmnt = new ConfigFragment();

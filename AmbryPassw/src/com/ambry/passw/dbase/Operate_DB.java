@@ -122,8 +122,20 @@ public class Operate_DB {
 			return false;
 	}
 
-	public String getCheckupPass() {
+	public boolean isPasswordPresent() {
+		Cursor cur = db.rawQuery("select * from " + SAVEPASSWORD_TABLE + ";",
+				null);
+		if (cur.moveToFirst()) {
+			cur.close();
+			return true;
+		} else {
+			cur.close();
+			return false;
+		}
+	}
 
+	public String getCheckupPass() {
+		
 		String passwd = "";
 		String[] columns = new String[] { "passwd", "activeCheckBox", "comment" };
 
@@ -159,7 +171,7 @@ public class Operate_DB {
 		values.put("activeCheckBox", checkPassword);
 		values.put("comment", getCurrentDateTime());
 		String whereClause = "id=?";
-		if (!isActivePass() & qtyRows > 0) {
+		if ( qtyRows > 0) {
 			db.update(SAVEPASSWORD_TABLE, values, whereClause, whereArgs);
 			return true;
 		}
