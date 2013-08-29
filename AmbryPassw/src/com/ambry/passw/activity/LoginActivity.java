@@ -19,9 +19,26 @@ import com.ambry.passw.security.S_md5_Class;
  */
 public class LoginActivity extends Activity implements View.OnClickListener {
 
+@Override
+	public void finish() {
+		db.closeDb();
+		super.finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+		db.closeDb();
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onStop() {
+		db.closeDb();
+		super.onStop();
+	}
+
 private static final String INCOM_PASS = "myPass";
-//	final String LOGIN[] = { "log" };
-//	final String PASSwD[] = { "PAss" };
+
 	SharedPreferences sPref;
 	EditText mPasswordView;
 	Button sing_in;
@@ -69,6 +86,7 @@ private static final String INCOM_PASS = "myPass";
 				intent.putExtra(INCOM_PASS, mPasswordView.getText().toString());
 				
 				startActivity(intent);
+				db.closeDb();
 				finish();
 			} else {
 				mPasswordView.setText("");
@@ -82,20 +100,6 @@ private static final String INCOM_PASS = "myPass";
 
 	}
 
-	boolean findPrefText(SharedPreferences pPref) {
-		try {
 
-			if (pPref.contains("PASSWD")) {
-
-				return true;
-			}
-		} catch (Exception e) {
-			Toast.makeText(this, "contains - Exeption", Toast.LENGTH_SHORT)
-					.show();
-		}
-
-		return false;
-
-	}
 
 }
