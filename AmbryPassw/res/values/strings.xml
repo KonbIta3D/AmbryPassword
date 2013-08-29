@@ -18,7 +18,7 @@
     <string name="hashSaved">Хеш-пароль сохранен</string>
     <string name="errorSaved">Ошибка сохранения</string>
     <string name="entrance">Вход</string>
-    <string name="error_passwIsNotValid">Пароли не совпадают!</string>
+    <string name="error_pass_is_not_equal">Пароли не совпадают!</string>
     <string name="error_passw_is_short">Длина пароля меньше 8 знаков!</string>
     <string name="styledLogin"><b>Логин</b></string>
     <string name="settings">Настройки</string>
@@ -27,7 +27,6 @@
     <string-array name="menuItems">
         <item>Настройки</item>
         <item>Выход</item>
-        <item>Чота</item>
     </string-array>
 
     <string name="menu">Меню</string>
@@ -39,5 +38,6 @@
     <string name="cancel">Отмена</string>
     <string name="add_item_title">Добавить запись</string>
     <string name="error_old_passwIsNotValid">Старый пароль не совпадает с новым!</string>
+    <string name="first_create_password">Это первый запуск программы.</string>
 
 </resources>

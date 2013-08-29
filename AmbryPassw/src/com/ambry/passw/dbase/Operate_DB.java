@@ -40,15 +40,15 @@ public class Operate_DB {
 
 		if (i == 1) {
 			columns = new String[] { "id", "login", "passwd", "comment" };
-			selection = "login LIKE (?)";
-			selectionArgs = new String[] { login1 + "%" };
+			selection = "lower(login) LIKE (?)";
+			selectionArgs = new String[] { "%"+login1.toLowerCase() + "%" };
 			orderBy = "login";
 		}
 
 		if (i == 2) {
 			columns = new String[] { "id", "login", "passwd", "comment" };
-			selection = "comment LIKE (?)";
-			selectionArgs = new String[] { login1 + "%" };
+			selection = "lower(comment) LIKE (?)";
+			selectionArgs = new String[] { "%"+login1.toLowerCase() + "%" };
 			orderBy = "comment";
 		}
 		Cursor c = db.query(MYTABLE, columns, selection, selectionArgs, null,
@@ -73,6 +73,17 @@ public class Operate_DB {
 		cv.put("login", login1);
 		cv.put("passwd", passwd1);
 		cv.put("comment", comment1);
+		db.insert(MYTABLE, null, cv);
+		cv.clear();
+
+	}
+
+	public void insertData(Item item) {
+
+		ContentValues cv = new ContentValues();
+		cv.put("login", item.getLogin().toString());
+		cv.put("passwd", item.getPassword().toString());
+		cv.put("comment", item.getComment().toString());
 		db.insert(MYTABLE, null, cv);
 		cv.clear();
 
@@ -135,7 +146,7 @@ public class Operate_DB {
 	}
 
 	public String getCheckupPass() {
-		
+
 		String passwd = "";
 		String[] columns = new String[] { "passwd", "activeCheckBox", "comment" };
 
@@ -171,7 +182,7 @@ public class Operate_DB {
 		values.put("activeCheckBox", checkPassword);
 		values.put("comment", getCurrentDateTime());
 		String whereClause = "id=?";
-		if ( qtyRows > 0) {
+		if (qtyRows > 0) {
 			db.update(SAVEPASSWORD_TABLE, values, whereClause, whereArgs);
 			return true;
 		}
@@ -197,6 +208,18 @@ public class Operate_DB {
 		return false;
 	}
 
+	public long getNextId() {
+		Cursor cur = db
+				.rawQuery("select max(id)+1 from " + MYTABLE + ";", null);
+		long nextId = 1;
+		if (cur.getCount() > 0) {
+			cur.moveToFirst();
+			nextId = cur.getLong(0);
+		}
+		cur.close();
+		return nextId;
+	}
+
 	private String getCurrentDateTime() {
 		String currentDateTime = "";
 
@@ -219,4 +242,5 @@ public class Operate_DB {
 			sNum = "0" + sNum;
 		return sNum;
 	}
+
 }

@@ -149,7 +149,7 @@ public class ConfigFragment extends DialogFragment implements
 				}
 			} else {
 				errorText.setText(getResources().getString(
-						R.string.error_passwIsNotValid));
+						R.string.error_pass_is_not_equal));
 				Log.d(LOG_TAG, "passwords are not equal");
 				clearPassword();
 				hideKeyBoard(save_password2);
@@ -191,7 +191,7 @@ public class ConfigFragment extends DialogFragment implements
 			}
 		} else {
 			errorText.setText(getResources().getString(
-					R.string.error_passwIsNotValid));
+					R.string.error_pass_is_not_equal));
 			hideKeyBoard(save_password2);
 			clearPassword();
 		}
