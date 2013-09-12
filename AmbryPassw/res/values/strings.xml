@@ -6,7 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="prompt_login">Login</string>
     <string name="promp_password">Пароль</string>
-    <string name="title_activity_conf_">Настройки</string>
+    <string name="title_activity_conf_">Смена пароля на вход в ПО</string>
     <string name="checkPassword">Запрашивать пароль при входе</string>
     <string name="enterPassword">Введите пароль</string>
     <string name="repeatPassw">Повторить пароль</string>
@@ -21,7 +21,7 @@
     <string name="error_pass_is_not_equal">Пароли не совпадают!</string>
     <string name="error_passw_is_short">Длина пароля меньше 8 знаков!</string>
     <string name="styledLogin"><b>Логин</b></string>
-    <string name="settings">Настройки</string>
+    <string name="change_password">Сменить пароль</string>
     <string name="exit">Выход</string>
 
     <string-array name="menuItems">
@@ -39,5 +39,9 @@
     <string name="add_item_title">Добавить запись</string>
     <string name="error_old_passwIsNotValid">Старый пароль не совпадает с новым!</string>
     <string name="first_create_password">Это первый запуск программы.</string>
+    <string name="old_password">Старый пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="confirm_new_password">Подтвердить пароль</string>
+    <string name="item_added">Запись добавлена!</string>
 
 </resources>

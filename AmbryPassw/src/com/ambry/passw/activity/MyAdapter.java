@@ -13,7 +13,7 @@ import com.ambry.passw.R;
 import com.ambry.passw.security.Crypto_Code;
 
 /**
- * Created by pcuser on 25.07.13.
+ * Created by YAKOVLEV on 25.07.13.
  */
 public class MyAdapter extends BaseAdapter {
 

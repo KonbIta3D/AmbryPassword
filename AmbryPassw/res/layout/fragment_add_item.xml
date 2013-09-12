@@ -10,6 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login"
+        android:maxLines="1"
+        android:nextFocusDown="@+id/editTextPassword"
+        android:singleLine="true"
         android:textIsSelectable="false" />
 
     <EditText
@@ -27,7 +30,8 @@
         android:id="@+id/editTextComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/comment" />
+        android:hint="@string/comment"
+        android:singleLine="true" />
 
     <LinearLayout
         android:layout_width="match_parent"

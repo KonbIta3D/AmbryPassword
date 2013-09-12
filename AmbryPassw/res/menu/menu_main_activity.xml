@@ -28,10 +28,10 @@
                 android:id="@+id/ddd"
                 android:title="@string/menu" >
                 <item
-                    android:id="@+id/menu_conf"
+                    android:id="@+id/menu_change_password"
                     android:orderInCategory="4"
                     android:showAsAction="withText"
-                    android:title="@string/settings">
+                    android:title="@string/change_password">
                 </item>
                 <item
                     android:id="@+id/menu_exit"

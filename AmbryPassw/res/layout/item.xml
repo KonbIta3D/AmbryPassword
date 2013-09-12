@@ -1,44 +1,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:orientation="horizontal"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:id="@+id/linearLayout1"
-			  android:background="@drawable/rect_in_item">
+    android:id="@+id/linearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rect_in_item"
+    android:orientation="horizontal" >
 
-	<TableLayout
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:stretchColumns="*"
-			android:shrinkColumns="*">
-		<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:shrinkColumns="*"
+        android:stretchColumns="*" >
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-			<TextView android:id="@+id/tvTextLogin"
-					  android:text="MyLogin"
-					  style="@style/LoginTextItemStyle"/>
+            <TextView
+                android:id="@+id/tvTextLogin"
+                style="@style/LoginTextItemStyle" />
 
+            <TextView
+                android:id="@+id/tvTextPassword"
+                style="@style/PasswordTextItemStyle" />
+        </TableRow>
 
-			<TextView android:id="@+id/tvTextPassword"
-					  android:text="MyPassword"
-					  style="@style/PasswordTextItemStyle"/>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left" >
 
+            <TextView
+                android:id="@+id/tvTextComment"
+                style="@style/CommentsTextItemStyle" />
+        </TableRow>
+    </TableLayout>
 
-		</TableRow>
-
-		<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center|left"
-				>
-
-
-			<TextView android:id="@+id/tvTextComment"
-					  android:text="Eny comments"
-					  style="@style/CommentsTextItemStyle"
-					/>
-
-		</TableRow>
-	</TableLayout>
 </LinearLayout>

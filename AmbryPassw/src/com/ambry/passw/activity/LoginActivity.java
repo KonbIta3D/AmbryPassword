@@ -16,12 +16,12 @@ import com.ambry.passw.dbase.Operate_DB;
 import com.ambry.passw.security.S_md5_Class;
 
 /**
+ * Created with IntelliJ IDEA. User: YAKOVLEV Date: 15.08.13 Time: 9:41 
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
 public class LoginActivity extends SherlockFragmentActivity {
 
-	private static final String INCOM_PASS = "myPass";
 
 	EditText firstPassword;
 	EditText secondPassword;
@@ -33,7 +33,8 @@ public class LoginActivity extends SherlockFragmentActivity {
 	private Operate_DB dSourse;
 	private S_md5_Class crypt;
 	private String currentPassword = null;
-	private boolean isActivePassw = false;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,9 @@ public class LoginActivity extends SherlockFragmentActivity {
 		crypt = new S_md5_Class();
 
 		currentPassword = dSourse.getCheckupPass();
-		isActivePassw = dSourse.isActivePass();
+		// isActivePassw = dSourse.isActivePass();
 
-		if (currentPassword.equals("") || !isActivePassw) {
+		if (currentPassword.equals("")) {
 
 			setContentView(R.layout.create_password_dialog);
 			setTitle("Ambry Password");
@@ -69,8 +70,8 @@ public class LoginActivity extends SherlockFragmentActivity {
 							dSourse.closeDb();
 							Intent intent = new Intent(getApplicationContext(),
 									MainActivity.class);
-							intent.putExtra(INCOM_PASS, firstPassword.getText()
-									.toString());
+//							intent.putExtra(INCOM_PASS, firstPassword.getText()
+//									.toString());
 							startActivity(intent);
 							finish();
 						} else {
@@ -124,8 +125,8 @@ public class LoginActivity extends SherlockFragmentActivity {
 
 						Intent intent = new Intent(getApplicationContext(),
 								MainActivity.class);
-						intent.putExtra(INCOM_PASS, mPasswordView.getText()
-								.toString());
+//						intent.putExtra(INCOM_PASS, mPasswordView.getText()
+//								.toString());
 						startActivity(intent);
 						finish();
 
@@ -152,5 +153,11 @@ public class LoginActivity extends SherlockFragmentActivity {
 		InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(etext.getWindowToken(), 0);
+	}
+	
+	@Override
+	protected void onStop() {
+		dSourse.closeDb();
+		super.onStop();
 	}
 }

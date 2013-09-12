@@ -9,12 +9,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ambry.passw.activity.Item;
+import com.ambry.passw.security.Crypto_Code;
 
 public class Operate_DB {
 	private DBHelper dbHelper;
 	private SQLiteDatabase db;
 	private final String SAVEPASSWORD_TABLE = "savePassword";
 	private final String MYTABLE = "mytable";
+	private final String ID = "id";
+	private final String LOGIN = "login";
+	private final String PASSWORD = "passwd";
+	private final String COMMENT = "comment";
 
 	public Operate_DB(Context context) {
 		dbHelper = new DBHelper(context);
@@ -30,6 +35,11 @@ public class Operate_DB {
 		findItems(data, login1, 2);
 	}
 
+	public ArrayList<Item> findItemsByLogin(String login) {
+		return null;
+
+	}
+
 	private void findItems(ArrayList<Item> data, String login1, int i) {
 		data.clear();
 
@@ -41,14 +51,14 @@ public class Operate_DB {
 		if (i == 1) {
 			columns = new String[] { "id", "login", "passwd", "comment" };
 			selection = "lower(login) LIKE (?)";
-			selectionArgs = new String[] { "%"+login1.toLowerCase() + "%" };
+			selectionArgs = new String[] { "%" + login1 + "%" };
 			orderBy = "login";
 		}
 
 		if (i == 2) {
 			columns = new String[] { "id", "login", "passwd", "comment" };
 			selection = "lower(comment) LIKE (?)";
-			selectionArgs = new String[] { "%"+login1.toLowerCase() + "%" };
+			selectionArgs = new String[] { "%" + login1 + "%" };
 			orderBy = "comment";
 		}
 		Cursor c = db.query(MYTABLE, columns, selection, selectionArgs, null,
@@ -189,6 +199,20 @@ public class Operate_DB {
 		return false;
 	}
 
+	public void updatePassword(String newPassword) {
+
+		String[] whereArgs = { 1 + "" };
+
+		ContentValues values = new ContentValues();
+		values.put("passwd", newPassword);
+		values.put("activeCheckBox", "");
+		values.put("comment", getCurrentDateTime());
+		String whereClause = "id=?";
+
+		db.update(SAVEPASSWORD_TABLE, values, whereClause, whereArgs);
+
+	}
+
 	public boolean updatePassword(boolean isCheckPassword) {
 		int checkPassword = 0;
 		if (isCheckPassword) {
@@ -243,4 +267,65 @@ public class Operate_DB {
 		return sNum;
 	}
 
+	public void updateMyTable(String newPassword, String oldPassword) {
+		Crypto_Code cr = new Crypto_Code();
+		Cursor cur = db.rawQuery("select * from " + MYTABLE + ";", null);
+		ArrayList<Item> list = new ArrayList<Item>();
+		if (cur.getCount() > 0) {
+
+			cur.moveToFirst();
+			do {
+				Item item = new Item(cur.getString(cur.getColumnIndex(LOGIN)),
+						cur.getString(cur.getColumnIndex(PASSWORD)),
+						cur.getString(cur.getColumnIndex(COMMENT)),
+						cur.getLong(cur.getColumnIndex(ID)));
+				list.add(item);
+			} while (cur.moveToNext());
+		}
+		cur.close();
+
+		ContentValues values = new ContentValues();
+		for (Item item : list) {
+
+			String deCriptedOldPasInList = cr.decrypt(item.getPassword()
+					.toString().getBytes(), oldPassword);
+
+			String newCriptedPassInList = cr.encrypt(deCriptedOldPasInList,
+					newPassword);
+
+			item.setPassword(newCriptedPassInList);
+
+			values.put(LOGIN, (String) item.getLogin());
+			values.put(PASSWORD, (String) item.getPassword());
+			values.put(COMMENT, (String) item.getComment());
+
+			String[] args = { item.getId() + "" };
+			String where = ID + "=?";
+
+			db.update(MYTABLE, values, where, args);
+			values.clear();
+		}
+	}
+
+	public void delItem(Item myItem) {
+		String[] whereArgs = { myItem.getId() + "" };
+		db.delete(MYTABLE, ID + "=?", whereArgs);
+
+	}
+
+	public ArrayList<Item> getAlldata() {
+		ArrayList<Item> allItems = new ArrayList<Item>();
+		Cursor cur = db.query(MYTABLE, null, null, null, null, null, LOGIN);
+		if (cur.moveToFirst()) {
+			cur.moveToFirst();
+			do {
+				Item item = new Item(cur.getString(cur.getColumnIndex(LOGIN)),
+						cur.getString(cur.getColumnIndex(PASSWORD)),
+						cur.getString(cur.getColumnIndex(COMMENT)),
+						cur.getLong(cur.getColumnIndex(ID)));
+				allItems.add(item);
+			} while (cur.moveToLast());
+		}
+		return allItems;
+	}
 }
