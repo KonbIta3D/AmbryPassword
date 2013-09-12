@@ -37,7 +37,7 @@
     <string name="title_fragment_search">Поиск</string>
     <string name="cancel">Отмена</string>
     <string name="add_item_title">Добавить запись</string>
-    <string name="error_old_passwIsNotValid">Старый пароль не совпадает с новым!</string>
+    <string name="error_old_passwIsNotValid">Старый пароль введен не верно!</string>
     <string name="first_create_password">Это первый запуск программы.</string>
     <string name="old_password">Старый пароль</string>
     <string name="new_password">Новый пароль</string>

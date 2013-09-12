@@ -21,7 +21,7 @@ import com.ambry.passw.security.S_md5_Class;
 /**
  * 
  * @author SKOBEELV
- *
+ * 
  */
 public class ChangePasswordFragment extends DialogFragment {
 
@@ -34,7 +34,7 @@ public class ChangePasswordFragment extends DialogFragment {
 	private Button savePassButton;
 	private Button cancelButton;
 	private TextView errorText;
-	
+
 	Operate_DB operate_db;
 
 	@Override
@@ -92,7 +92,7 @@ public class ChangePasswordFragment extends DialogFragment {
 	}
 
 	private void updatePassword() {
-
+		String errorMessage = "";
 		if (editTxtNewPass.getText().toString()
 				.equals(editTxtConfirmPassword.getText().toString())) {
 			if (editTxtNewPass.getText().toString().length() >= 8) {
@@ -107,37 +107,34 @@ public class ChangePasswordFragment extends DialogFragment {
 				if (oldPassword.equals(operate_db.getCheckupPass())) {
 					operate_db.updateMyTable(newPassword, oldPassword);
 					operate_db.updatePassword(newPassword);
-					
-					Log.d(LOG_TAG, "updated password to "
-							+ editTxtOldPassword.getText().toString());
 					hideKeyBoard(editTxtConfirmPassword);
+					clearPassword();
+					operate_db.closeDb();
 					dismiss();
+					return;
 				} else {
-					errorText.setText("Old password is not equals to new");
-					editTxtOldPassword.setText("");
-					editTxtNewPass.setText("");
-					editTxtConfirmPassword.setText("");
-					hideKeyBoard(editTxtConfirmPassword);
+			
+					errorMessage = getResources().getString(
+							R.string.error_old_passwIsNotValid);
 				}
 
 			} else {
-				errorText.setText(getResources().getString(
-						R.string.error_passw_is_short));
-				Log.d(LOG_TAG, "password is equals and is so short");
-				clearPassword();
-				hideKeyBoard(editTxtConfirmPassword);
+				// errorText.setText(getResources().getString(
+				// R.string.error_passw_is_short));
+				errorMessage += "\n"
+						+ getResources().getString(
+								R.string.error_passw_is_short);
 			}
 		} else {
-			errorText.setText(getResources().getString(
-					R.string.error_pass_is_not_equal));
-			Log.d(LOG_TAG, "passwords are not equal");
-			clearPassword();
-			hideKeyBoard(editTxtConfirmPassword);
-			
+			// errorText.setText(getResources().getString(
+			// R.string.error_pass_is_not_equal));
+			errorMessage += "\n"
+					+ getResources()
+							.getString(R.string.error_pass_is_not_equal);
 		}
-
-		operate_db.closeDb();
-
+		errorText.setText(errorMessage);
+		hideKeyBoard(editTxtConfirmPassword);
+		clearPassword();
 
 	}
 
@@ -153,27 +150,23 @@ public class ChangePasswordFragment extends DialogFragment {
 						.getText().toString());
 
 				isInsertedPass = operate_db.insertPassword(encriptedPassword);
-
-				if (isInsertedPass)
-					Log.d(LOG_TAG, "password saved to "
-							+ editTxtOldPassword.getText().toString());
-				operate_db.closeDb();
-				dismiss();
+				operate_db.insertPassword(encriptedPassword);
+				if (isInsertedPass) {
+					operate_db.closeDb();
+					dismiss();
+				}
 
 			} else {
 				errorText.setText(getResources().getString(
 						R.string.error_passw_is_short));
-				Log.d(LOG_TAG, "password so short. not inserted");
-				hideKeyBoard(editTxtConfirmPassword);
-				clearPassword();
+
 			}
 		} else {
 			errorText.setText(getResources().getString(
 					R.string.error_pass_is_not_equal));
-			hideKeyBoard(editTxtConfirmPassword);
-			clearPassword();
 		}
-
+		operate_db.closeDb();
+		clearPassword();
 	}
 
 	private boolean isPasswordsIsMatch(String s, String c) {
@@ -186,13 +179,19 @@ public class ChangePasswordFragment extends DialogFragment {
 	}
 
 	private void hideKeyBoard(EditText etext) {
-		InputMethodManager inputMethodManager = (InputMethodManager) getDialog()
-				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.hideSoftInputFromWindow(etext.getWindowToken(), 0);
+		if (etext != null) {
+			InputMethodManager inputMethodManager = (InputMethodManager) getDialog()
+					.getContext()
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			inputMethodManager.hideSoftInputFromWindow(etext.getWindowToken(),
+					0);
+		} else
+			return;
 	}
 
 	private void clearPassword() {
 		editTxtOldPassword.setText("");
+		editTxtNewPass.setText("");
 		editTxtConfirmPassword.setText("");
 	}
 
