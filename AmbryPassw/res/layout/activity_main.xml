@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/status_bar_background22"
+    android:background="@drawable/abs__ab_bottom_solid_dark_holo"
     android:orientation="vertical" >
    
 
@@ -9,7 +9,9 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawSelectorOnTop="false"
-        android:scrollingCache="false" />
+        android:drawSelectorOnTop="true"
+        android:headerDividersEnabled="true"
+        android:footerDividersEnabled="true"
+        android:scrollingCache="true" />
 
 </LinearLayout>

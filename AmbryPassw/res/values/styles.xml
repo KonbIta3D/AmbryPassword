@@ -24,25 +24,25 @@
         <item name="android:padding">16dp</item>
     </style>
 
-	<style name="CommentsTextItemStyle">
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textSize">15sp</item>
-		<item name="android:textColor">#153815</item>
-	</style>
+    <style name="CommentsTextItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#153815</item>
+    </style>
 
-	<style name="PasswordTextItemStyle">
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textSize">25sp</item>
-		<item name="android:textColor">#280E0E</item>
-	</style>
+    <style name="PasswordTextItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#280E0E</item>
+    </style>
 
+    <style name="LoginTextItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#191717</item>
+    </style>
 
-	<style name="LoginTextItemStyle">
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textSize">20sp</item>
-		<item name="android:textColor">#0000FF</item>
-	</style>
 </resources>

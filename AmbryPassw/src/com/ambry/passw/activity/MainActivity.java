@@ -63,7 +63,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		registerForContextMenu(list);
 		sAdapter.notifyDataSetChanged();
-
+		setTitle("");
 	}
 
 	@Override
