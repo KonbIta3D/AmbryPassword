@@ -7,34 +7,32 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.ambry.passw.R;
+import com.ambry.passw.activity.fragment.ChangeSecurityQuestionFragment;
 import com.ambry.passw.dbase.Operate_DB;
 import com.ambry.passw.security.S_md5_Class;
 
 /**
- * Created with IntelliJ IDEA. User: YAKOVLEV Date: 15.08.13 Time: 9:41 
- * Activity which displays a login screen to the user, offering registration as
- * well.
+ * Created with IntelliJ IDEA. User: YAKOVLEV Date: 15.08.13 Time: 9:41 Activity
+ * which displays a login screen to the user, offering registration as well.
  */
 public class LoginActivity extends SherlockFragmentActivity {
 
+	private EditText firstPassword, secondPassword, mPasswordView;
+	private Button saveNewPassButton, cancelButton, sing_in;
+	private CheckBox chBxUseSecurQstn;
 
-	EditText firstPassword;
-	EditText secondPassword;
-	Button saveNewPassButton;
-	Button cancelButton;
-
-	EditText mPasswordView;
-	Button sing_in;
 	private Operate_DB dSourse;
 	private S_md5_Class crypt;
 	private String currentPassword = null;
-
-
+	private ChangeSecurityQuestionFragment securFrag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +42,32 @@ public class LoginActivity extends SherlockFragmentActivity {
 		crypt = new S_md5_Class();
 
 		currentPassword = dSourse.getCheckupPass();
-		// isActivePassw = dSourse.isActivePass();
 
 		if (currentPassword.equals("")) {
 
-			setContentView(R.layout.create_password_dialog);
+			setContentView(R.layout.activity_first_enter);
 			setTitle("Ambry Password");
 			firstPassword = (EditText) findViewById(R.id.passw1_cr_dialog);
 			secondPassword = (EditText) findViewById(R.id.passw2_cr_dialog);
 			saveNewPassButton = (Button) findViewById(R.id.save_button_cr_dialog);
 			cancelButton = (Button) findViewById(R.id.cancel_button_cr_dialog);
+			chBxUseSecurQstn = (CheckBox) findViewById(R.id.chbx_use_security_question);
+			securFrag = new ChangeSecurityQuestionFragment();
 
+			chBxUseSecurQstn
+					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView,
+								boolean isChecked) {
+							if (buttonView.equals(chBxUseSecurQstn)) {
+								securFrag.show(getSupportFragmentManager(),
+										"secur");
+
+							}
+						}
+					});
+			chBxUseSecurQstn.setChecked(securFrag.isSecurQuestnSet());
 			saveNewPassButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -70,8 +83,7 @@ public class LoginActivity extends SherlockFragmentActivity {
 							dSourse.closeDb();
 							Intent intent = new Intent(getApplicationContext(),
 									MainActivity.class);
-//							intent.putExtra(INCOM_PASS, firstPassword.getText()
-//									.toString());
+
 							startActivity(intent);
 							finish();
 						} else {
@@ -125,8 +137,7 @@ public class LoginActivity extends SherlockFragmentActivity {
 
 						Intent intent = new Intent(getApplicationContext(),
 								MainActivity.class);
-//						intent.putExtra(INCOM_PASS, mPasswordView.getText()
-//								.toString());
+
 						startActivity(intent);
 						finish();
 
@@ -154,7 +165,7 @@ public class LoginActivity extends SherlockFragmentActivity {
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(etext.getWindowToken(), 0);
 	}
-	
+
 	@Override
 	protected void onStop() {
 		dSourse.closeDb();

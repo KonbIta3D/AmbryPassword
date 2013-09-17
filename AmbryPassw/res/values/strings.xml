@@ -21,7 +21,7 @@
     <string name="error_pass_is_not_equal">Пароли не совпадают!</string>
     <string name="error_passw_is_short">Длина пароля меньше 8 знаков!</string>
     <string name="styledLogin"><b>Логин</b></string>
-    <string name="change_password">Сменить пароль</string>
+    <string name="change_password">Изменить пароль</string>
     <string name="exit">Выход</string>
 
     <string-array name="menuItems">
@@ -43,5 +43,13 @@
     <string name="new_password">Новый пароль</string>
     <string name="confirm_new_password">Подтвердить пароль</string>
     <string name="item_added">Запись добавлена!</string>
+    <string name="question">Секретный вопрос</string>
+    <string name="answer">Ответ</string>
+    <string name="ok">OK</string>
+    <string name="title_chng_secur_qstn">Изменение секретного вопроса и ответа</string>
+    <string name="change_secur_question">Изменить секретный вопрос</string>
+    <string name="use_security_question">Использовать секретный вопрос для восстановления пароля</string>
+    <string name="title_new_secur_qstn">Ввод секретного вопроса</string>
+    <string name="del_item">Удалить запись</string>
 
 </resources>

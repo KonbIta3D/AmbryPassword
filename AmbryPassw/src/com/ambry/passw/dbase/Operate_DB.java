@@ -328,4 +328,12 @@ public class Operate_DB {
 		}
 		return allItems;
 	}
+
+	public boolean updateSecurData(String question, String answer) {
+		
+		//TODO We need return true if data updated else false
+		return true;
+	}
+
+	
 }

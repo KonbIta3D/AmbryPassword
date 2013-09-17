@@ -37,6 +37,13 @@
             android:hint="@string/repeatPassw"
             android:inputType="textPassword" />
 
+        <CheckBox
+            android:id="@+id/chbx_use_security_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/use_security_question" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

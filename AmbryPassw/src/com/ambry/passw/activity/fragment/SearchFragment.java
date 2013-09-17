@@ -95,12 +95,14 @@ public class SearchFragment extends DialogFragment {
 			adapter.notifyDataSetChanged();
 			
 		}
+		
+		final String menuText=getActivity().getResources().getString(R.string.del_item);
 		lView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
 			
 			@Override
 			public void onCreateContextMenu(ContextMenu menu, View v,
 					ContextMenuInfo menuInfo) {
-				menu.add("Del item");
+				menu.add(menuText);
 			
 			}
 			

@@ -16,12 +16,13 @@ import com.actionbarsherlock.view.MenuItem;
 import com.ambry.passw.R;
 import com.ambry.passw.activity.fragment.AddNewItemFragment;
 import com.ambry.passw.activity.fragment.ChangePasswordFragment;
+import com.ambry.passw.activity.fragment.ChangeSecurityQuestionFragment;
 import com.ambry.passw.activity.fragment.SearchFragment;
 import com.ambry.passw.dbase.DBHelper;
 import com.ambry.passw.dbase.Operate_DB;
 
 public class MainActivity extends SherlockFragmentActivity {
-	// private static final String INCOM_PASS = "myPass";
+
 	final String ID = "id";
 	final String LOGIN = "login";
 	final String PASSWD = "passwd";
@@ -37,6 +38,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	ChangePasswordFragment chngPswdFragment;
 	SearchFragment searchFragment;
 	AddNewItemFragment addItemFragment;
+	ChangeSecurityQuestionFragment chngQstnFragment;
 
 	Operate_DB operate_db;
 	Intent intent;
@@ -50,11 +52,11 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		data = new ArrayList<Item>();
 		intent = getIntent();
-		// secretWord = intent.getStringExtra(INCOM_PASS);
 
 		addItemFragment = new AddNewItemFragment();
 		chngPswdFragment = new ChangePasswordFragment();
 		searchFragment = new SearchFragment();
+		chngQstnFragment = new ChangeSecurityQuestionFragment();
 
 		operate_db = new Operate_DB(getApplicationContext());
 
@@ -88,6 +90,9 @@ public class MainActivity extends SherlockFragmentActivity {
 			break;
 		case R.id.menu_change_password:
 			chngPswdFragment.show(getSupportFragmentManager(), "chngPswd");
+			break;
+		case R.id.menu_change_secur_question:
+			chngQstnFragment.show(getSupportFragmentManager(), "chngSecur");
 			break;
 		case R.id.menu_exit:
 			finish();
