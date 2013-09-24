@@ -29,6 +29,10 @@ public class DBHelper extends SQLiteOpenHelper {
                     + "passwd text,"
                     + "activeCheckBox integer,"
                     + "comment text"+");");
+            db.execSQL("create table saveQuestion ("
+                    + "id integer primary key autoincrement,"
+                    + "question text,"
+                    + "answer text"+");");
         }
 
     @Override

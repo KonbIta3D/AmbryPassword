@@ -13,12 +13,14 @@
         android:id="@+id/secur_qstn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ems="50"
         android:hint="@string/question" />
 
     <EditText
         android:id="@+id/secur_answr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ems="50"
         android:hint="@string/answer" />
 
     <LinearLayout

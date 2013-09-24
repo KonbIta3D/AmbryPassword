@@ -15,6 +15,7 @@ public class Operate_DB {
 	private DBHelper dbHelper;
 	private SQLiteDatabase db;
 	private final String SAVEPASSWORD_TABLE = "savePassword";
+	private final String QUESTIONS_TABLE = "saveQuestion";
 	private final String MYTABLE = "mytable";
 	private final String ID = "id";
 	private final String LOGIN = "login";
@@ -306,6 +307,48 @@ public class Operate_DB {
 			values.clear();
 		}
 	}
+	
+	public void updateMyTable(String newPassword) {
+		Crypto_Code cr = new Crypto_Code();
+		Cursor cur = db.rawQuery("select * from " + MYTABLE + ";", null);
+		ArrayList<Item> list = new ArrayList<Item>();
+		if (cur.getCount() > 0) {
+
+			cur.moveToFirst();
+			do {
+				Item item = new Item(cur.getString(cur.getColumnIndex(LOGIN)),
+						cur.getString(cur.getColumnIndex(PASSWORD)),
+						cur.getString(cur.getColumnIndex(COMMENT)),
+						cur.getLong(cur.getColumnIndex(ID)));
+				list.add(item);
+			} while (cur.moveToNext());
+		}
+		cur.close();
+
+		ContentValues values = new ContentValues();
+		for (Item item : list) {
+
+			String oldPassword = getCheckupPass();
+			String deCriptedOldPasInList = cr.decrypt(item.getPassword()
+					.toString().getBytes(), oldPassword );
+
+			String newCriptedPassInList = cr.encrypt(deCriptedOldPasInList,
+					newPassword);
+
+			item.setPassword(newCriptedPassInList);
+
+			values.put(LOGIN, (String) item.getLogin());
+			values.put(PASSWORD, (String) item.getPassword());
+			values.put(COMMENT, (String) item.getComment());
+
+			String[] args = { item.getId() + "" };
+			String where = ID + "=?";
+
+			db.update(MYTABLE, values, where, args);
+			values.clear();
+		}
+		
+	}
 
 	public void delItem(Item myItem) {
 		String[] whereArgs = { myItem.getId() + "" };
@@ -329,11 +372,80 @@ public class Operate_DB {
 		return allItems;
 	}
 
-	public boolean updateSecurData(String question, String answer) {
-		
-		//TODO We need return true if data updated else false
-		return true;
+	public void updateSecurData(String question, String answer) {
+
+		// TODO We need return true if data updated else false
+		String[] columns = new String[] { "question", "answer" };
+		Cursor c = db.query(QUESTIONS_TABLE, columns, null, null, null, null,
+				null);
+		ContentValues values = new ContentValues();
+		values.put("question", question);
+		values.put("answer", answer);
+
+		if (c.getCount() <= 0) {
+			db.insert(QUESTIONS_TABLE, null, values);
+			c.close();
+
+		} else {
+			String[] whereArgs = { 1 + "" };
+			String whereClause = "id=?";
+			db.update(QUESTIONS_TABLE, values, whereClause, whereArgs);
+			c.close();
+
+		}
+
+	}
+
+	public String getAnswerForQuestion(String question) {
+		String answer = "";
+		String[] columns = new String[] { "question", "answer" };
+
+		Cursor c = db.query(QUESTIONS_TABLE, columns, null, null, null, null,
+				null);
+		if (c.moveToFirst()) {
+
+			do {
+				if (c.getString(c.getColumnIndex("question")).equals(question)) {
+					answer = c.getString(c.getColumnIndex("answer"));
+				}
+
+			} while (c.moveToNext());
+		}
+
+		return answer;
+	}
+
+	public String getAnswerForQuestion() {
+		String answer = "";
+		String[] columns = new String[] { "question", "answer" };
+
+		Cursor c = db.query(QUESTIONS_TABLE, columns, null, null, null, null,
+				null);
+		if (c.moveToFirst()) {
+
+			do {
+
+				answer = c.getString(c.getColumnIndex("answer"));
+
+			} while (c.moveToNext());
+		}
+
+		return answer;
+	}
+
+	public String getQuestion() {
+		String[] columns = { "question" };
+		String question = "";
+		Cursor cursor = db.query(QUESTIONS_TABLE, columns, null, null, null,
+				null, null);
+		if (cursor.moveToFirst()) {
+			do {
+				question = cursor.getString(0);
+			} while (cursor.moveToNext());
+		}
+		return question;
 	}
 
 	
+
 }

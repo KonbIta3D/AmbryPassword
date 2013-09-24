@@ -51,5 +51,9 @@
     <string name="use_security_question">Использовать секретный вопрос для восстановления пароля</string>
     <string name="title_new_secur_qstn">Ввод секретного вопроса</string>
     <string name="del_item">Удалить запись</string>
+    <string name="remind_passwd">Изменить пароль</string>
+    <string name="title_remind_passwd">Изменение пароля</string>
+    <string name="paswd_chngd">Пароль изменен! Выход..</string>
+    <string name="wrong_answer">Ответ неверный!</string>
 
 </resources>

@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ambry.passw.R;
 import com.ambry.passw.dbase.Operate_DB;
@@ -34,6 +35,7 @@ public class ChangePasswordFragment extends DialogFragment {
 	private Button savePassButton;
 	private Button cancelButton;
 	private TextView errorText;
+	private boolean isRemindPasswd = false;
 
 	Operate_DB operate_db;
 
@@ -47,6 +49,9 @@ public class ChangePasswordFragment extends DialogFragment {
 		operate_db = new Operate_DB(view.getContext());
 
 		editTxtOldPassword = (EditText) view.findViewById(R.id.old_password);
+		if (isRemindPasswd) {
+			editTxtOldPassword.setEnabled(false);
+		}
 		editTxtNewPass = (EditText) view.findViewById(R.id.new_password);
 		editTxtConfirmPassword = (EditText) view
 				.findViewById(R.id.confirm_new_password);
@@ -104,7 +109,9 @@ public class ChangePasswordFragment extends DialogFragment {
 
 				String oldPassword = crypt.md5(editTxtOldPassword.getText()
 						.toString());
-				if (oldPassword.equals(operate_db.getCheckupPass())) {
+
+				if (oldPassword.equals(operate_db.getCheckupPass())
+						& !isRemindPasswd) {
 					operate_db.updateMyTable(newPassword, oldPassword);
 					operate_db.updatePassword(newPassword);
 					hideKeyBoard(editTxtConfirmPassword);
@@ -112,22 +119,32 @@ public class ChangePasswordFragment extends DialogFragment {
 					operate_db.closeDb();
 					dismiss();
 					return;
+				}
+				if (isRemindPasswd) {
+					operate_db.updateMyTable(newPassword);
+					operate_db.updatePassword(newPassword);
+					hideKeyBoard(editTxtConfirmPassword);
+					clearPassword();
+					operate_db.closeDb();
+					Toast mesCloseActivity = Toast.makeText(getActivity(),
+							getResources().getString(R.string.paswd_chngd),
+							Toast.LENGTH_SHORT);
+					mesCloseActivity.show();
+					getActivity().finish();
+
 				} else {
-			
+
 					errorMessage = getResources().getString(
 							R.string.error_old_passwIsNotValid);
 				}
 
 			} else {
-				// errorText.setText(getResources().getString(
-				// R.string.error_passw_is_short));
 				errorMessage += "\n"
 						+ getResources().getString(
 								R.string.error_passw_is_short);
 			}
 		} else {
-			// errorText.setText(getResources().getString(
-			// R.string.error_pass_is_not_equal));
+			
 			errorMessage += "\n"
 					+ getResources()
 							.getString(R.string.error_pass_is_not_equal);
@@ -136,6 +153,10 @@ public class ChangePasswordFragment extends DialogFragment {
 		hideKeyBoard(editTxtConfirmPassword);
 		clearPassword();
 
+	}
+
+	public void setIsRemindPasswd() {
+		isRemindPasswd = true;
 	}
 
 	private void insertNewPassword() {

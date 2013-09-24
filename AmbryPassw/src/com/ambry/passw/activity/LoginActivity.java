@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.ambry.passw.R;
 import com.ambry.passw.activity.fragment.ChangeSecurityQuestionFragment;
+import com.ambry.passw.activity.fragment.RemindPasswordFragment;
 import com.ambry.passw.dbase.Operate_DB;
 import com.ambry.passw.security.S_md5_Class;
 
@@ -28,11 +29,14 @@ public class LoginActivity extends SherlockFragmentActivity {
 	private EditText firstPassword, secondPassword, mPasswordView;
 	private Button saveNewPassButton, cancelButton, sing_in;
 	private CheckBox chBxUseSecurQstn;
+	private Button recallPasswdButton;
 
 	private Operate_DB dSourse;
 	private S_md5_Class crypt;
 	private String currentPassword = null;
 	private ChangeSecurityQuestionFragment securFrag;
+	private boolean isSecretQuestion;
+	private int counterWrongPassw=0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class LoginActivity extends SherlockFragmentActivity {
 		crypt = new S_md5_Class();
 
 		currentPassword = dSourse.getCheckupPass();
+		isSecretQuestion = false;
 
 		if (currentPassword.equals("")) {
 
@@ -60,14 +65,23 @@ public class LoginActivity extends SherlockFragmentActivity {
 						@Override
 						public void onCheckedChanged(CompoundButton buttonView,
 								boolean isChecked) {
-							if (buttonView.equals(chBxUseSecurQstn)) {
+							if (buttonView.equals(chBxUseSecurQstn)
+									&& isChecked) {
 								securFrag.show(getSupportFragmentManager(),
 										"secur");
 
 							}
+//							if (buttonView.equals(chBxUseSecurQstn)
+//									&& isChecked) {
+//								securFrag.dismiss();
+//							}
 						}
 					});
-			chBxUseSecurQstn.setChecked(securFrag.isSecurQuestnSet());
+			// chBxUseSecurQstn.setChecked(securFrag.isSecurQuestnSet());
+			if (!dSourse.getAnswerForQuestion().equals("")) {
+				isSecretQuestion = true;
+			}
+			chBxUseSecurQstn.setChecked(isSecretQuestion);
 			saveNewPassButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -124,6 +138,8 @@ public class LoginActivity extends SherlockFragmentActivity {
 		} else {
 			setContentView(R.layout.activity_login);
 			mPasswordView = (EditText) findViewById(R.id.password);
+			recallPasswdButton = (Button)findViewById(R.id.recall_passwd);
+			
 			sing_in = (Button) findViewById(R.id.sign_in_button);
 			sing_in.setOnClickListener(new OnClickListener() {
 
@@ -147,8 +163,20 @@ public class LoginActivity extends SherlockFragmentActivity {
 								getApplicationContext(),
 								getResources().getString(
 										R.string.error_invalid_password),
-								Toast.LENGTH_LONG);
+								Toast.LENGTH_SHORT);
 						erMes.show();
+						counterWrongPassw++;
+						if(counterWrongPassw==3){
+							recallPasswdButton.setVisibility(Button.VISIBLE);
+							recallPasswdButton.setOnClickListener(new OnClickListener() {
+								
+								@Override
+								public void onClick(View v) {
+									RemindPasswordFragment rmPswdFrgmnt = new RemindPasswordFragment();
+									rmPswdFrgmnt.show(getSupportFragmentManager(), "remind");
+								}
+							});
+						}
 					}
 
 				}
@@ -156,6 +184,13 @@ public class LoginActivity extends SherlockFragmentActivity {
 
 		}
 
+	}
+
+	protected void recallPassword() {
+		Button buttonRecall = new Button(getApplicationContext());
+		buttonRecall.setText("Remind my password");
+//		buttonRecall.setActivated(true);
+		
 	}
 
 	private void hideKeyBoard(EditText etext) {
