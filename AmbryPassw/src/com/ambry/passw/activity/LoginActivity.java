@@ -36,7 +36,7 @@ public class LoginActivity extends SherlockFragmentActivity {
 	private String currentPassword = null;
 	private ChangeSecurityQuestionFragment securFrag;
 	private boolean isSecretQuestion;
-	private int counterWrongPassw=0;
+	private int counterWrongPassw = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +71,10 @@ public class LoginActivity extends SherlockFragmentActivity {
 										"secur");
 
 							}
-//							if (buttonView.equals(chBxUseSecurQstn)
-//									&& isChecked) {
-//								securFrag.dismiss();
-//							}
+
 						}
 					});
-			// chBxUseSecurQstn.setChecked(securFrag.isSecurQuestnSet());
+
 			if (!dSourse.getAnswerForQuestion().equals("")) {
 				isSecretQuestion = true;
 			}
@@ -138,8 +135,8 @@ public class LoginActivity extends SherlockFragmentActivity {
 		} else {
 			setContentView(R.layout.activity_login);
 			mPasswordView = (EditText) findViewById(R.id.password);
-			recallPasswdButton = (Button)findViewById(R.id.recall_passwd);
-			
+			recallPasswdButton = (Button) findViewById(R.id.recall_passwd);
+
 			sing_in = (Button) findViewById(R.id.sign_in_button);
 			sing_in.setOnClickListener(new OnClickListener() {
 
@@ -166,16 +163,19 @@ public class LoginActivity extends SherlockFragmentActivity {
 								Toast.LENGTH_SHORT);
 						erMes.show();
 						counterWrongPassw++;
-						if(counterWrongPassw==3){
+						if (counterWrongPassw == 1) {
 							recallPasswdButton.setVisibility(Button.VISIBLE);
-							recallPasswdButton.setOnClickListener(new OnClickListener() {
-								
-								@Override
-								public void onClick(View v) {
-									RemindPasswordFragment rmPswdFrgmnt = new RemindPasswordFragment();
-									rmPswdFrgmnt.show(getSupportFragmentManager(), "remind");
-								}
-							});
+							recallPasswdButton
+									.setOnClickListener(new OnClickListener() {
+
+										@Override
+										public void onClick(View v) {
+											RemindPasswordFragment rmPswdFrgmnt = new RemindPasswordFragment();
+											rmPswdFrgmnt
+													.show(getSupportFragmentManager(),
+															"remind");
+										}
+									});
 						}
 					}
 
@@ -189,8 +189,8 @@ public class LoginActivity extends SherlockFragmentActivity {
 	protected void recallPassword() {
 		Button buttonRecall = new Button(getApplicationContext());
 		buttonRecall.setText("Remind my password");
-//		buttonRecall.setActivated(true);
-		
+		// buttonRecall.setActivated(true);
+
 	}
 
 	private void hideKeyBoard(EditText etext) {

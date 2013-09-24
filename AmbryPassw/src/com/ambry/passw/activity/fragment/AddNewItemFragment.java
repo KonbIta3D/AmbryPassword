@@ -75,7 +75,7 @@ public class AddNewItemFragment extends DialogFragment implements
 						eTxLogin.setText("");
 						eTxPassord.setText("");
 						eTxComment.setText("");
-						
+
 						dismiss();
 					}
 				}
@@ -115,13 +115,14 @@ public class AddNewItemFragment extends DialogFragment implements
 					eTxPassord.getText().toString(), KEYWORD), eTxComment
 					.getText().toString(), dSourse.getNextId());
 		dSourse.insertData(item);
-		
+
 		Log.d(LOG_TAG, "inserted new item with login: " + item.getLogin());
 		Toast t = Toast.makeText(getActivity(),
 				getResources().getString(R.string.item_added),
 				Toast.LENGTH_SHORT);
 		t.show();
-		dSourse.closeDb();
 		
+		dSourse.closeDb();
+
 	}
 }

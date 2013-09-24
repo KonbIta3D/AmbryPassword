@@ -16,7 +16,6 @@
         <activity
             android:name="com.ambry.passw.activity.LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -20,9 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:maxLength="20"
-        android:maxLines="1"
         android:singleLine="true"
         android:textIsSelectable="false" />
 
